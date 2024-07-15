@@ -20,7 +20,7 @@
                     <input v-model="fruit.color" type="text" class="form-control" id="colorFruit" aria-describedby="colorFruit" placeholder="color">
                     <div  class="form-text">enter color fruit</div>
                 </div>
-                <button @click.prevent="$store.dispatch('updateFruit', {id: fruit.id, name: fruit.name, price: fruit.price, color: fruit.color})" type="submit" class="btn btn-primary">edit fruit</button>
+                <button @click.prevent="$store.dispatch('fruit/updateFruit', {id: fruit.id, name: fruit.name, price: fruit.price, color: fruit.color})" type="submit" class="btn btn-primary">edit fruit</button>
             </form>
         </div>
     </div>
@@ -34,13 +34,13 @@ export default {
     name: "edit",
 
     mounted() {
-        store.dispatch('getFruit', this.$route.params.id)
+        this.$store.dispatch('fruit/getFruit', this.$route.params.id)
     },
 
     computed: {
-        ...mapGetters([
-            'fruit'
-        ])
+        ...mapGetters({
+            fruit: 'fruit/fruit'
+        })
     }
 }
 </script>

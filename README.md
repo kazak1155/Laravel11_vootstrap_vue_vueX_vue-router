@@ -1,2 +1,5 @@
 laravel 11
-booystrap
+bootstrap
+vue
+vuex
+vue-router

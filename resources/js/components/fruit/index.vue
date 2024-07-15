@@ -27,8 +27,11 @@
                         fruit
                     </router-link>
                 </td>
-                <td><a href="#" @click.prevent="$store.dispatch('deleteFruit', fruit.id)"
-                       class="btn btn-danger">Delete</a></td>
+                <td>
+                    <a href="#" @click.prevent="$store.dispatch('fruit/deleteFruit', fruit.id)"
+                       class="btn btn-danger">Delete
+                    </a>
+                </td>
             </tr>
             </tbody>
         </table>
@@ -37,21 +40,20 @@
 
 <script>
 
-import store from "../../store/index.js";
 import {mapGetters} from 'vuex'
 
 export default {
     name: "indexFruit",
 
     mounted() {
-        store.dispatch('getAllFruits')
+        this.$store.dispatch('fruit/getAllFruits')
     },
 
     computed: {
-        ...mapGetters([
-            'fruits'
-        ])
-    }
+        ...mapGetters({
+            fruits: 'fruit/fruits'
+        })
+    },
 }
 </script>
 

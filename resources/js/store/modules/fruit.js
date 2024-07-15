@@ -1,16 +1,16 @@
-import axios from "axios";
-
 import router from "../../router.js";
-import store from "../index.js";
+import apiAxios from "../../apiAxios.js";
 
 export default  {
+    namespaced: true,
+
     state: {
         fruits: null,
         fruit: {
             name: null,
             price: null,
             color: null,
-        }
+        },
     },
 
     getters: {
@@ -19,7 +19,7 @@ export default  {
         },
         fruit: state => {
             return state.fruit
-        }
+        },
     },
 
     mutations: {
@@ -34,11 +34,7 @@ export default  {
 
     actions: {
         getAllFruits({ commit }) {
-            axios.get('/api/auth/fruit', {
-                    headers:{
-                        'authorization': 'Bearer ' + localStorage.getItem('access_token')
-                    }
-                })
+            apiAxios.get('/api/auth/fruit')
                 .then(response => {
                     commit('setFruits', response.data.data)
                 })
@@ -47,12 +43,18 @@ export default  {
                 })
         },
 
+        getFruit({ commit }, id) {
+            apiAxios.get(`/api/auth/fruit/${id}`)
+                .then(response => {
+                    commit('setFruit', response.data)
+                })
+                .catch(error => {
+                    console.log(error.message)
+                })
+        },
+
         deleteFruit({dispatch}, id, ) {
-            axios.delete(`/api/fruit/${id}`,  {
-                    headers:{
-                        'authorization': 'Bearer ' + localStorage.getItem('access_token')
-                    }
-                }
+            apiAxios.delete(`/api/auth/fruit/${id}`,
             )
                 .then(response => {
                     dispatch('getAllFruits')
@@ -62,37 +64,27 @@ export default  {
                 });
         },
 
-        getFruit({ commit }, id) {
-            axios.get(`/api/fruit/${id}`,  {
-                headers:{
-                    'authorization': 'Bearer ' + localStorage.getItem('access_token')
-                }
-            })
-                .then(response => {
-                    console.log(response);
-                    commit('setFruit', response.data)
-                })
-                .catch(error => {
-                    console.log(error.message)
-                })
-        },
+        // getPerson({ commit }, id) {
+        //     apiAxios.get(`b/${id}`)
+        //         .then(response => {
+        //             console.log(response);
+        //             commit('setFruit', response.data)
+        //         })
+        //         .catch(error => {
+        //             console.log(error.message)
+        //         })
+        // },
 
         updateFruit({}, data) {
-            axios.patch(`/api/fruit/${data.id}`,
+            apiAxios.patch(`/api/auth/fruit/${data.id}`,
                 {
                     name: data.name,
                     price: data.price,
                     color: data.color,
                 },
-                {
-                    headers:{
-                        'authorization': 'Bearer ' + localStorage.getItem('access_token')
-                    }
-                }
             )
                 .then(response => {
                     router.push({ name: 'fruit.show', params: {id: data.id} })
-                    console.log(response);
                 })
                 .catch(error => {
                     console.log(error.response)
@@ -100,16 +92,11 @@ export default  {
         },
 
         addFruit({}, data) {
-            axios.post('/api/fruit',
+            apiAxios.post('/api/auth/fruit',
                 {
                     name: data.name,
                     price: data.price,
                     color: data.color,
-                },
-                {
-                    headers:{
-                        'authorization': 'Bearer ' + localStorage.getItem('access_token')
-                    }
                 })
                 .then(response => {
                     router.push({ name: 'fruit.show', params: {id: response.data.id} })
@@ -119,5 +106,4 @@ export default  {
                 })
         }
     },
-
 }

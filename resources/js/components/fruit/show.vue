@@ -26,20 +26,19 @@
 </template>
 
 <script>
-import store from "../../store/index.js";
 import {mapGetters} from "vuex";
 
 export default {
     name: "show",
 
     mounted() {
-        store.dispatch('getFruit', this.$route.params.id)
+        this.$store.dispatch('fruit/getFruit', this.$route.params.id)
     },
 
     computed: {
-        ...mapGetters([
-            'fruit'
-        ])
+        ...mapGetters({
+            fruit: 'fruit/fruit'
+        })
     }
 }
 </script>

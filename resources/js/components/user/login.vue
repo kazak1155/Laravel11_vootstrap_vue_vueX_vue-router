@@ -42,10 +42,12 @@ export default {
                     localStorage.setItem('access_token', response.data.access_token)
                     localStorage.setItem('id', response.data.id)
                     router.push({ name: 'user.personal', params: { id: response.data.id }})
+                    console.log(response.data.id)
+
                 })
                 .catch(error => {
                     // console.log(error.response)
-                    this.error = error.response.data.error
+                    // this.error = error.response.data.error
                 });
         }
     },

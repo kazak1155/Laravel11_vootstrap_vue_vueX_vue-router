@@ -41,6 +41,18 @@ Route::group(['middleware' => 'api', 'prefix' => 'auth'], function ($router) {
 
         Route::group(['namespaces' => 'Fruit', 'prefix' => 'fruit'], function () {
             Route::get('/', [ShowFruitController::class, 'showAllFruits'])->name('fruit.showAll');
+            Route::get('/{fruit}', [ShowFruitController::class, 'snowFruit'])->name('fruit.showOne');
+            Route::post('/', [StoreFruitController::class, 'storeFruit'])->name('fruit.post');
+            Route::delete('/{fruit}', [DeleteFruitController::class, 'deleteFruit'])->name('fruit.delete');
+            Route::patch('/{fruit}', [EditFruitController::class, 'editFruit'])->name('fruit.edit');
+        });
+
+        Route::group(['namespaces' => 'User', 'prefix' => 'user'], function () {
+//            Route::get('/', [ShowFruitController::class, 'showAllFruits'])->name('fruit.showAll');
+//            Route::get('/{fruit}', [ShowFruitController::class, 'snowFruit'])->name('fruit.showOne');
+//            Route::post('', [StoreFruitController::class, 'storeFruit'])->name('fruit.post');
+//            Route::delete('/{fruit}', [DeleteFruitController::class, 'deleteFruit'])->name('fruit.delete');
+//            Route::patch('/{fruit}', [EditFruitController::class, 'editFruit'])->name('fruit.edit');
         });
 
     });
@@ -53,9 +65,6 @@ Route::group(['middleware' => 'api', 'prefix' => 'auth'], function ($router) {
 
 
 //Route::get('fruit', [ShowFruitController::class, 'showAllFruits'])->name('fruit.showAll');
-Route::get('fruit/{fruit}', [ShowFruitController::class, 'snowFruit'])->name('fruit.showOne');
-Route::post('fruit', [StoreFruitController::class, 'storeFruit'])->name('fruit.post');
-Route::delete('fruit/{fruit}', [DeleteFruitController::class, 'deleteFruit'])->name('fruit.delete');
-Route::patch('fruit/{fruit}', [EditFruitController::class, 'editFruit'])->name('fruit.edit');
+
 
 
