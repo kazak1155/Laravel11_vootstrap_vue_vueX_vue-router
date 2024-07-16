@@ -33,9 +33,15 @@ const routes = [
     },
 
     {
-        path: "/user/:id/personal",
+        path: "/user/personal",
         name: "user.personal",
         component: () => import('./components/user/personal.vue'),
+    },
+
+    {
+        path: "/users/logout",
+        name: "user.logout",
+        component: () => import('./components/user/logout.vue')
     },
 ];
 

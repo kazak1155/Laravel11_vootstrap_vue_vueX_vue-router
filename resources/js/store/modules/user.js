@@ -3,6 +3,8 @@ import router from "../../router.js";
 import apiAxios from "../../apiAxios.js";
 
 export default  {
+    namespaced: true,
+
     state: {
         user: {
             name: null,
@@ -12,7 +14,7 @@ export default  {
 
     getters: {
         user: state => {
-            return state.fruit
+            return state.user
         }
     },
 
@@ -23,6 +25,22 @@ export default  {
     },
 
     actions: {
+        getAuthUser({ commit }) {
+            apiAxios.post(`/api/auth/me`)
+                .then(response => {
+                    console.log(response.data);
+                    commit('setUser', response.data)
+                })
+        },
 
+        getFruit({ commit }, id) {
+            apiAxios.get(`/api/auth/fruit/${id}`)
+                .then(response => {
+                    commit('setFruit', response.data)
+                })
+                .catch(error => {
+                    console.log(error.message)
+                })
+        },
     },
 }

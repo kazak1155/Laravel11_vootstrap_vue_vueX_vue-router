@@ -3,7 +3,8 @@
         <router-link :to="{ name: 'fruit.index'}"> All fruit</router-link>
         <router-link :to="{ name: 'fruit.create'}"> | Add fruit</router-link>
         <router-link :to="{ name: 'user.login'}"> | Login</router-link>
-<!--        <router-link :to="{ name: 'user.personal', params: { id: this.id }}"> | personal</router-link>-->
+        <router-link :to="{ name: 'user.logout'}"> | Logout</router-link>
+        <router-link :to="{ name: 'user.personal'}"> | personal</router-link>
         <router-view></router-view>
     </div>
 </template>
@@ -23,13 +24,8 @@ export default {
 
     },
 
-    updated() {
-        this.getData()
-    },
-
     methods: {
         getData() {
-            // this.accessToken = localStorage.getItem('access_token')
             this.id = localStorage.getItem('id')
         },
     },

@@ -5,6 +5,7 @@ use App\Http\Controllers\Fruit\DeleteFruitController;
 use App\Http\Controllers\Fruit\EditFruitController;
 use App\Http\Controllers\Fruit\ShowFruitController;
 use App\Http\Controllers\Fruit\StoreFruitController;
+use App\Http\Controllers\User\ShowUserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -49,7 +50,7 @@ Route::group(['middleware' => 'api', 'prefix' => 'auth'], function ($router) {
 
         Route::group(['namespaces' => 'User', 'prefix' => 'user'], function () {
 //            Route::get('/', [ShowFruitController::class, 'showAllFruits'])->name('fruit.showAll');
-//            Route::get('/{fruit}', [ShowFruitController::class, 'snowFruit'])->name('fruit.showOne');
+            Route::get('/{user}', [ShowUserController::class, 'showOne'])->name('user.showOne');
 //            Route::post('', [StoreFruitController::class, 'storeFruit'])->name('fruit.post');
 //            Route::delete('/{fruit}', [DeleteFruitController::class, 'deleteFruit'])->name('fruit.delete');
 //            Route::patch('/{fruit}', [EditFruitController::class, 'editFruit'])->name('fruit.edit');
