@@ -46,7 +46,7 @@ export default  {
         getFruit({ commit }, id) {
             apiAxios.get(`/api/auth/fruit/${id}`)
                 .then(response => {
-                    commit('setFruit', response.data)
+                    commit('setFruit', response.data.data)
                 })
                 .catch(error => {
                     console.log(error.message)

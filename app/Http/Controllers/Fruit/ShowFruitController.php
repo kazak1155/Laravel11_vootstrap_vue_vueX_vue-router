@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Fruit;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\Fruit\FruitResourse;
 use App\Models\Fruit;
 use Illuminate\Http\Request;
 
@@ -13,16 +14,7 @@ class ShowFruitController extends Controller
      */
     public function showAllFruits()
     {
-
-        return  [
-            'data' => Fruit::all()
-        ];
-    }
-
-    public function test()
-    {
-
-        return  111;
+        return FruitResourse::collection(Fruit::all());
     }
 
     /**
@@ -30,8 +22,7 @@ class ShowFruitController extends Controller
      */
     public function snowFruit(Fruit $fruit)
     {
-
-        return $fruit;
+        return new FruitResourse($fruit);
     }
 
 }
