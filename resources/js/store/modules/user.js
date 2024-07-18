@@ -19,8 +19,8 @@ export default  {
         },
 
         error: state => {
-    return state.error
-},
+            return state.error
+        },
     },
 
     mutations: {
@@ -57,6 +57,23 @@ export default  {
                 .then(response => {
                     localStorage.removeItem('access_token')
                     router.push({ name: 'user.login' })
+                })
+                .catch(error=>{
+                    console.log(error.response)
+                });
+        },
+
+        storeUser({}, data) {
+            axios.post('/api/user', {
+                    name: data.name,
+                    email: data.email,
+                    password: data.password,
+                    password_confirmation: data.password_confirmation,
+                }
+            )
+                .then(response => {
+                    localStorage.setItem('access_token', response.data.token)
+                    router.push({ name: 'user.personal'})
                 })
                 .catch(error=>{
                     console.log(error.response)

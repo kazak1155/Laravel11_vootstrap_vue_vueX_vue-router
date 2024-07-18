@@ -6,6 +6,7 @@ use App\Http\Controllers\Fruit\EditFruitController;
 use App\Http\Controllers\Fruit\ShowFruitController;
 use App\Http\Controllers\Fruit\StoreFruitController;
 use App\Http\Controllers\User\ShowUserController;
+use App\Http\Controllers\User\UserStoreController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -14,21 +15,7 @@ Route::get('/user', function (Request $request) {
     return $request->user();
 })->middleware('auth:sanctum');
 
-
-//Route::group(['middleware' => 'api', 'prefix' => 'auth'], function ($router) {
-//
-//    Route::post('logout', [AuthController::class, 'logout']);
-//    Route::post('refresh', [AuthController::class, 'refresh']);
-//    Route::post('me', [AuthController::class, 'me']);
-//    Route::post('login', [AuthController::class, 'login']);
-//
-//    Route::get('test', [ShowFruitController::class, 'test']);
-//
-//    Route::group(['namespaces' => 'Fruit', 'prefix' => 'fruit'], function () {
-//        Route::get('/', [ShowFruitController::class, 'showAllFruits'])->name('fruit.showAll');
-//    });
-//
-//});
+Route::post('user', [UserStoreController::class, 'storeUser'])->name('user.store');
 
 Route::group(['middleware' => 'api', 'prefix' => 'auth'], function ($router) {
 

@@ -24,7 +24,7 @@
                         <label for="exampleInputPassword1">confirm password</label>
                         <input v-model="password_confirmation" type="password" class="form-control"  placeholder="confirm password">
                     </div>
-                    <button @click.prevent="storeUser" type="submit" class="btn btn-primary">Registration</button>
+                    <button @click.prevent="$store.dispatch('userStore/storeUser', { name: this.name, email: this.email, password: this.password, password_confirmation: this.password_confirmation})" type="submit" class="btn btn-primary">Registration</button>
                 </form>
             </div>
         </div>
@@ -32,35 +32,14 @@
 </template>
 
 <script>
+import {mapGetters} from "vuex";
 export default {
     name: "regisration",
 
-    data() {
-        return {
-            name: null,
-            email:null,
-            password: null,
-            password_confirmation: null
-        }
-    },
-
-    methods: {
-        storeUser() {
-            axios.post('/api/user', {
-                    name: this.name,
-                    email: this.email,
-                    password: this.password,
-                    password_confirmation: this.password_confirmation,
-                }
-            )
-                .then(response => {
-                    localStorage.setItem('access_token', response.data.token)
-                    this.$router.push({ name: 'user.personal'})
-                })
-                .catch(error=>{
-                    this.error = error.response.data.message
-                });
-        }
+    computed: {
+        ...mapGetters({
+            user: 'userStore/user',
+        })
     },
 }
 </script>
