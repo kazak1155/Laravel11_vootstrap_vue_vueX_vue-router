@@ -10,7 +10,8 @@ export default  {
             name: null,
             email: null,
             error: null,
-        }
+        },
+        accessToken: localStorage.getItem('access_token')
     },
 
     getters: {
@@ -21,11 +22,19 @@ export default  {
         error: state => {
             return state.error
         },
+
+        accessToken: state => {
+            return state.accessToken
+        }
     },
 
     mutations: {
         setUser(state, user) {
             state.user = user
+        },
+
+        setAccessToken(state, accessToken) {
+            state.accessToken = accessToken
         }
     },
 
@@ -37,7 +46,7 @@ export default  {
                 })
         },
 
-        login({}, data) {
+        login({ commit }, data) {
             apiAxios.post('/api/auth/login', {
                     email: data.email,
                     password: data.password,
@@ -45,6 +54,8 @@ export default  {
             )
                 .then(response => {
                     localStorage.setItem('access_token', response.data.access_token)
+                    commit('setAccessToken', response.data.access_token)
+                    console.log(response.data.access_token);
                     router.push({ name: 'user.personal' })
                 })
                 .catch(error => {
@@ -52,9 +63,10 @@ export default  {
                 });
         },
 
-        LogoutUser() {
+        LogoutUser({ commit }) {
             apiAxios.post('/api/auth/logout')
                 .then(response => {
+                    commit('setAccessToken', null)
                     localStorage.removeItem('access_token')
                     router.push({ name: 'user.login' })
                 })
@@ -63,7 +75,7 @@ export default  {
                 });
         },
 
-        storeUser({}, data) {
+        storeUser({ commit }, data) {
             axios.post('/api/user', {
                     name: data.name,
                     email: data.email,
@@ -73,11 +85,14 @@ export default  {
             )
                 .then(response => {
                     localStorage.setItem('access_token', response.data.token)
-                    router.push({ name: 'user.personal'})
+                    // router.push({ name: 'user.personal'})
+                    commit('setAccessToken', response.data.token)
+                    console.log(response.data.token);
                 })
                 .catch(error=>{
                     console.log(error.response)
                 });
-        }
+        },
+
     },
 }

@@ -12,27 +12,15 @@
 </template>
 
 <script>
+import {mapGetters} from "vuex";
+
 export default {
     name: "app",
 
-    data() {
-        return {
-            accessToken: null
-        }
-    },
-
-    mounted() {
-        this.getAccessToken()
-    },
-
-    updated() {
-        this.getAccessToken()
-    },
-
-    methods: {
-        getAccessToken() {
-            this.accessToken = localStorage.getItem('access_token')
-        },
+    computed: {
+        ...mapGetters({
+            accessToken: 'userStore/accessToken',
+        })
     },
 }
 </script>
