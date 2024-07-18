@@ -3,52 +3,34 @@
         <form>
             <div class="mt-3 mb-3 form-group">
                 <label for="exampleInputEmail1">Email address</label>
-                <input v-model="email" type="email" class="form-control"  aria-describedby="emailHelp" placeholder="Enter email">
+                <input v-model="user.email" type="email" class="form-control"  aria-describedby="emailHelp" placeholder="Enter email">
                 <small id="emailHelp" class="form-text text-muted">enter e-mail</small>
             </div>
             <div class="mb-3 form-group">
                 <label for="exampleInputPassword1">Password</label>
-                <input v-model="password" type="password" class="form-control"  placeholder="Password">
+                <input v-model="user.password" type="password" class="form-control"  placeholder="Password">
+                <small id="passwordHelp" class="form-text text-muted">enter password</small>
             </div>
-            <button @click.prevent="login" type="submit" class="btn btn-primary">Submit</button>
+            <button @click.prevent="$store.dispatch('userStore/login', { email: user.email, password: user.password})" type="submit" class="btn btn-primary">Submit</button>
         </form>
     </div>
-    <div v-if="error" class="text-bg-danger">{{this.error}} </div>
 </template>
 
 <script>
-import apiAxios from './../../apiAxios.js'
-import router from "../../router.js";
+import {mapGetters} from "vuex";
 
 export default {
     name: "loginUser",
 
-    data() {
-        return {
-            email: null,
-            password: null,
-            error: null,
-        }
+    mounted() {
+        this.$store.commit('userStore/setUser', { email: null, password: null})
     },
 
-    methods: {
-        login() {
-            apiAxios.post('/api/auth/login', {
-                    email: this.email,
-                    password: this.password,
-                }
-            )
-                .then(response => {
-                    localStorage.setItem('access_token', response.data.access_token)
-                    // localStorage.setItem('id', response.data.id)
-                    router.push({ name: 'user.personal' })
-                })
-                .catch(error => {
-                    console.log(error.response)
-                });
-        }
+    computed: {
+        ...mapGetters({
+            user: 'userStore/user',
+        })
     },
-
 }
 </script>
 

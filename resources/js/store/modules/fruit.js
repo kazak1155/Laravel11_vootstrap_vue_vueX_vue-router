@@ -64,17 +64,6 @@ export default  {
                 });
         },
 
-        // getPerson({ commit }, id) {
-        //     apiAxios.get(`b/${id}`)
-        //         .then(response => {
-        //             console.log(response);
-        //             commit('setFruit', response.data)
-        //         })
-        //         .catch(error => {
-        //             console.log(error.message)
-        //         })
-        // },
-
         updateFruit({}, data) {
             apiAxios.patch(`/api/auth/fruit/${data.id}`,
                 {

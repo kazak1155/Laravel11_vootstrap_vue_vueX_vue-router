@@ -3,6 +3,12 @@ import { createWebHistory, createRouter } from "vue-router";
 
 const routes = [
     {
+        path: "/",
+        name: "main",
+        component: () => import('./components/mainPage.vue'),
+    },
+
+    {
         path: "/fruit",
         name: "fruit.index",
         component: () => import('./components/fruit/index.vue'),
@@ -33,6 +39,12 @@ const routes = [
     },
 
     {
+        path: "/user/registration",
+        name: "user.registration",
+        component: () => import('./components/user/registration.vue'),
+    },
+
+    {
         path: "/user/personal",
         name: "user.personal",
         component: () => import('./components/user/personal.vue'),
@@ -43,6 +55,12 @@ const routes = [
         name: "user.logout",
         component: () => import('./components/user/logout.vue')
     },
+
+    {
+        path: "/:pathToMatch(.*)*",
+        name: "404",
+        component: () => import('./components/404.vue')
+    }
 ];
 
 const router = createRouter({
@@ -53,6 +71,21 @@ const router = createRouter({
 
 router.beforeEach((to, from) => {
 
+    const accessToken = localStorage.getItem('access_token')
+
+    if (!accessToken) {
+        if (to.name === 'user.login' ||  to.name === 'user.registration') {
+            return true
+        } else {
+            return { name: 'user.login' }
+        }
+    }
+
+    if (to.name === 'user.login' || to.name === 'user.registration' && accessToken) {
+        return { name: 'user.personal' }
+    }
+
+    return true
 })
 
 export default router;

@@ -1,11 +1,13 @@
 <template>
     <div>
-        <router-link :to="{ name: 'fruit.index'}"> All fruit</router-link>
-        <router-link :to="{ name: 'fruit.create'}"> | Add fruit</router-link>
-        <router-link :to="{ name: 'user.login'}"> | Login</router-link>
-        <router-link :to="{ name: 'user.logout'}"> | Logout</router-link>
-        <router-link :to="{ name: 'user.personal'}"> | personal</router-link>
-        <router-view></router-view>
+        <router-link :to="{ name: 'main'}"> Main page</router-link>
+        <router-link v-if="accessToken" :to="{ name: 'fruit.index'}"> | All fruit</router-link>
+        <router-link v-if="accessToken" :to="{ name: 'fruit.create'}"> | Add fruit</router-link>
+        <router-link v-if="!accessToken" :to="{ name: 'user.login'}"> | Login</router-link>
+        <router-link v-if="accessToken" :to="{ name: 'user.logout'}"> | Logout</router-link>
+        <router-link v-if="!accessToken" :to="{ name: 'user.registration'}"> | Registration user</router-link>
+        <router-link v-if="accessToken" :to="{ name: 'user.personal'}"> | Personal auth user</router-link>
+        <router-view :key="$route.fullPath"></router-view>
     </div>
 </template>
 
@@ -15,18 +17,21 @@ export default {
 
     data() {
         return {
-            id: null
+            accessToken: null
         }
     },
 
     mounted() {
-        this.getData()
+        this.getAccessToken()
+    },
 
+    updated() {
+        this.getAccessToken()
     },
 
     methods: {
-        getData() {
-            this.id = localStorage.getItem('id')
+        getAccessToken() {
+            this.accessToken = localStorage.getItem('access_token')
         },
     },
 }

@@ -9,13 +9,18 @@ export default  {
         user: {
             name: null,
             email: null,
+            error: null,
         }
     },
 
     getters: {
         user: state => {
             return state.user
-        }
+        },
+
+        error: state => {
+    return state.error
+},
     },
 
     mutations: {
@@ -28,19 +33,34 @@ export default  {
         getAuthUser({ commit }) {
             apiAxios.post(`/api/auth/me`)
                 .then(response => {
-                    console.log(response.data);
                     commit('setUser', response.data)
                 })
         },
 
-        getFruit({ commit }, id) {
-            apiAxios.get(`/api/auth/fruit/${id}`)
+        login({}, data) {
+            apiAxios.post('/api/auth/login', {
+                    email: data.email,
+                    password: data.password,
+                }
+            )
                 .then(response => {
-                    commit('setFruit', response.data)
+                    localStorage.setItem('access_token', response.data.access_token)
+                    router.push({ name: 'user.personal' })
                 })
                 .catch(error => {
-                    console.log(error.message)
-                })
+                    console.log(error.response)
+                });
         },
+
+        LogoutUser() {
+            apiAxios.post('/api/auth/logout')
+                .then(response => {
+                    localStorage.removeItem('access_token')
+                    router.push({ name: 'user.login' })
+                })
+                .catch(error=>{
+                    console.log(error.response)
+                });
+        }
     },
 }
